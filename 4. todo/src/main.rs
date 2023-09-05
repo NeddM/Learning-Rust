@@ -11,7 +11,6 @@ fn main() {
 }
 
 fn menu() {
-    let mut tasks: Vec<Task> = Vec::new();
     loop {
         println!(" - - MENU - - ");
         println!("0. Exit");
@@ -27,7 +26,7 @@ fn menu() {
             "0" => break,
             "1" => {
                 println!("1");
-                create_note()
+                create_task()
             }
             "2" => println!("2"),
             "3" => println!("3"),
@@ -36,7 +35,8 @@ fn menu() {
     }
 }
 
-fn create_note() {
+fn create_task() {
+    let mut tasks: Vec<Task> = Vec::new();
     // ! Formulario
     println!("Creating a new task...");
 
@@ -51,7 +51,7 @@ fn create_note() {
         .expect("Not a string");
 
     println!("¿Done? y/n: ");
-    let mut task_done: bool;
+    let task_done: bool;
     let mut task_done_check = String::new();
     stdin()
         .read_line(&mut task_done_check)
@@ -62,5 +62,21 @@ fn create_note() {
     match task_done_check {
         "Y" => task_done = true,
         _ => task_done = false,
+    }
+
+    // Agregando valores al objeto
+    let new_obj = Task {
+        name: task_name,
+        description: task_description,
+        done: task_done,
+    };
+
+    tasks.push(new_obj);
+    list_task(tasks)
+}
+
+fn list_task(tasks: Vec<Task>) {
+    for task in tasks.iter() {
+        println!("Task {}: {}, {}", task.name, task.description, task.done);
     }
 }
